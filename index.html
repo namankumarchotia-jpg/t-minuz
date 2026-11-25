@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>T-Minus — Investor Summit Planner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #090D16;
+      --cyan-glow: #7CE8FF;
+      --glass-bg: rgba(255, 255, 255, 0.055);
+      --glass-bg-hover: rgba(255, 255, 255, 0.09);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-border-strong: rgba(255, 255, 255, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background-color: var(--bg-deep);
+      color: #F8FAFC;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", system-ui, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Animated Ambient Midnight-Slate Glass Background */
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background: radial-gradient(circle at 20% 15%, #132238 0%, #090D16 55%, #060910 100%);
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.42;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .orb-1 {
+      width: 55vw;
+      height: 55vw;
+      max-width: 560px;
+      max-height: 560px;
+      top: -12%;
+      left: -10%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.38), rgba(15, 23, 42, 0));
+      animation: drift1 22s ease-in-out infinite alternate;
+    }
+
+    .orb-2 {
+      width: 60vw;
+      height: 60vw;
+      max-width: 620px;
+      max-height: 620px;
+      bottom: -15%;
+      right: -15%;
+      background: radial-gradient(circle, rgba(124, 232, 255, 0.22), rgba(15, 23, 42, 0));
+      animation: drift2 26s ease-in-out infinite alternate;
+    }
+
+    .orb-3 {
+      width: 45vw;
+      height: 45vw;
+      max-width: 440px;
+      max-height: 440px;
+      top: 38%;
+      right: 12%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.20), rgba(9, 13, 22, 0));
+      animation: drift3 28s ease-in-out infinite alternate;
+    }
+
+    @keyframes drift1 {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(8%, 10%) scale(1.08); }
+    }
+    @keyframes drift2 {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-10%, -8%) scale(1.12); }
+    }
+    @keyframes drift3 {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-6%, 12%) scale(0.95); }
+    }
+
+    /* Subtle diagonal glass sheen layer */
+    .glass-sheen {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 38%, rgba(124,232,255,0.025) 65%, transparent 100%);
+    }
+
+    /* Frosted Glass Surfaces */
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(140%);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .glass-pill:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(124, 232, 255, 0.35);
+    }
+
+    .glass-btn {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s ease;
+    }
+
+    .glass-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.22);
+    }
+
+    .glass-btn:active {
+      transform: scale(0.97);
+    }
+
+    .glass-btn-cyan {
+      background: rgba(124, 232, 255, 0.12);
+      border: 1px solid rgba(124, 232, 255, 0.32);
+      color: #A5F3FC;
+      box-shadow: 0 0 20px rgba(124, 232, 255, 0.12);
+    }
+
+    .glass-btn-cyan:hover {
+      background: rgba(124, 232, 255, 0.2);
+      border-color: rgba(124, 232, 255, 0.5);
+      box-shadow: 0 0 24px rgba(124, 232, 255, 0.22);
+    }
+
+    /* Glowing Progress Bar */
+    .progress-track {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #38BDF8 0%, #7CE8FF 65%, #CFFAFE 100%);
+      box-shadow: 0 0 18px rgba(124, 232, 255, 0.65);
+      transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Timeline Active Node Pulse */
+    .node-active {
+      background: #7CE8FF;
+      box-shadow: 0 0 0 4px rgba(124, 232, 255, 0.18), 0 0 16px rgba(124, 232, 255, 0.85);
+      animation: pulseCyan 2.6s ease-in-out infinite;
+    }
+
+    @keyframes pulseCyan {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(124, 232, 255, 0.18), 0 0 14px rgba(124, 232, 255, 0.8); }
+      50% { box-shadow: 0 0 0 7px rgba(124, 232, 255, 0.08), 0 0 22px rgba(124, 232, 255, 1); }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+    }
+
+    /* Modal Backdrop */
+    .modal-backdrop {
+      background: rgba(4, 7, 14, 0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: opacity 0.25s ease;
+    }
+
+    /* Form Inputs */
+    .glass-input {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #F8FAFC;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .glass-input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(124, 232, 255, 0.55);
+    }
+
+    /* Fix date input calendar icon in dark mode */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.85);
+      cursor: pointer;
+    }
+
+    /* Tabular numbers for crisp clocks and timers */
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="selection:bg-cyan-400/20 selection:text-cyan-200">
+  <!-- Ambient Background Layers -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="glass-sheen" aria-hidden="true"></div>
+
+  <!-- Main Centered Portrait Dashboard Container -->
+  <div class="relative z-10 min-h-screen w-full flex flex-col items-center justify-start px-3 sm:px-5 pt-4 sm:pt-8 pb-32">
+    <main class="w-full max-w-[440px] glass-panel rounded-[36px] px-5 sm:px-7 pt-5 pb-6 flex flex-col">
+
+      <!-- Top Utility Bar -->
+      <header class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-slate-400 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-cyan-300 shadow-[0_0_8px_#7CE8FF]"></span>
+          <span>T-Minus</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <button id="btnOpenWallpaper" title="Lock Screen Wallpaper" class="glass-btn rounded-full p-2 text-slate-300 hover:text-cyan-200" aria-label="Generate Lock Screen Wallpaper">
+            <!-- Smartphone / Wallpaper Icon -->
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+              <rect x="6" y="2" width="12" height="20" rx="3" />
+              <path d="M10 18h4" stroke-linecap="round" />
+            </svg>
+          </button>
+          <button id="btnExportICS" title="Export to Calendar (.ics)" class="glass-btn rounded-full p-2 text-slate-300 hover:text-cyan-200" aria-label="Export Calendar .ics">
+            <!-- Calendar Download Icon -->
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="17" rx="3" />
+              <path d="M8 2v4M16 2v4M3 9h18" stroke-linecap="round" />
+              <path d="M12 12v5m0 0l-2-2m2 2l2-2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <button id="btnOpenSettings" title="Event Settings" class="glass-btn rounded-full p-2 text-slate-300 hover:text-white" aria-label="Event Settings">
+            <!-- Sliders / Settings Icon -->
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Hero Lock Screen Clock & Live Countdown -->
+      <section class="flex flex-col items-center text-center pt-1 pb-5">
+        <!-- Lock Icon + Live Clock -->
+        <svg class="w-3.5 h-3.5 text-slate-400/80 mb-1.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-1V7a5 5 0 00-5-5zm-3 5a3 3 0 116 0v3H9V7z"/>
+        </svg>
+        <div id="liveClock" class="text-[54px] sm:text-[62px] leading-none font-extralight tracking-[-0.03em] text-white tabular-nums select-none">
+          --:--
+        </div>
+        <div id="liveDate" class="text-[13px] text-slate-300/80 font-normal tracking-wide mt-1.5">
+          Loading date...
+        </div>
+
+        <!-- Countdown Glass Pill (Click to toggle detailed countdown) -->
+        <button id="countdownPill" class="glass-pill mt-5 px-6 py-2.5 rounded-full cursor-pointer group focus:outline-none" title="Tap to toggle detailed countdown">
+          <div id="countdownPrimary" class="text-[17px] sm:text-[18px] font-medium tracking-[0.06em] text-[#9BEFFF] tabular-nums">
+            16 DAYS TO GO
+          </div>
+          <div id="countdownSub" class="hidden text-[11px] text-slate-300/80 tracking-[0.14em] uppercase mt-0.5 tabular-nums">
+            00h : 00m : 00s
+          </div>
+        </button>
+
+        <!-- Event Title & Date -->
+        <div class="mt-3.5 text-[11px] uppercase tracking-[0.22em] text-slate-300/85 font-medium">
+          <span id="heroEventTitle">INVESTOR SUMMIT</span>
+          <span class="mx-2 text-slate-500">•</span>
+          <span id="heroTargetDate">DEC 11, 2026</span>
+        </div>
+
+        <!-- Readiness Progress Bar -->
+        <div class="w-full mt-4">
+          <div class="progress-track w-full h-[7px] rounded-full">
+            <div id="progressBarFill" class="progress-fill h-full rounded-full" style="width: 30%;"></div>
+          </div>
+          <div class="flex items-center justify-between mt-2 text-[11px] text-slate-400 tabular-nums">
+            <span id="readinessText" class="text-slate-300 font-medium">30% Ready</span>
+            <span id="hoursRemainingText">36h remaining • 3h/day</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Divider -->
+      <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-1"></div>
+
+      <!-- Milestones Timeline Section -->
+      <section class="mt-4 flex-1 flex flex-col">
+        <div class="flex items-center justify-between mb-3.5">
+          <div class="flex items-center gap-2">
+            <h2 class="text-[11px] uppercase tracking-[0.24em] text-slate-400 font-medium">Milestones</h2>
+            <span id="milestoneCountBadge" class="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 text-slate-300 tabular-nums">0/10</span>
+          </div>
+          <button id="btnAddMilestone" class="glass-btn rounded-full px-3 py-1 text-[11px] font-medium text-cyan-200 flex items-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" d="M12 5v14M5 12h14"/>
+            </svg>
+            <span>Add</span>
+          </button>
+        </div>
+
+        <!-- Interactive Vertical Dotted Timeline -->
+        <div id="timelineContainer" class="relative flex flex-col">
+          <!-- Milestones injected dynamically by JS -->
+        </div>
+      </section>
+
+      <!-- Quick Action Row -->
+      <section class="mt-6 pt-4 border-t border-white/10 grid grid-cols-2 gap-2.5">
+        <button id="btnSaveWallpaperMain" class="glass-btn-cyan rounded-2xl py-2.5 px-3 text-[12px] font-medium flex items-center justify-center gap-2">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <rect x="6" y="2" width="12" height="20" rx="3" />
+            <path d="M10 18h4" stroke-linecap="round" />
+          </svg>
+          <span>Lock Screen PNG</span>
+        </button>
+        <button id="btnExportICSMain" class="glass-btn rounded-2xl py-2.5 px-3 text-[12px] font-medium text-slate-200 flex items-center justify-center gap-2">
+          <svg class="w-4 h-4 shrink-0 text-slate-300" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="17" rx="3" />
+            <path d="M8 2v4M16 2v4M3 9h18" stroke-linecap="round" />
+          </svg>
+          <span>Export .ics</span>
+        </button>
+      </section>
+    </main>
+  </div>
+
+  <!-- Floating Bottom Focus Timer Bar (3-Hour Prep Block) -->
+  <div class="fixed bottom-4 left-0 right-0 z-30 flex justify-center px-3 pointer-events-none">
+    <div id="focusDock" class="pointer-events-auto w-full max-w-[440px] glass-panel rounded-[26px] px-4 py-3 transition-all duration-300">
+      <!-- Compact Row -->
+      <div class="flex items-center justify-between gap-3">
+        <!-- Left: Circular Ring + Time -->
+        <div class="flex items-center gap-3">
+          <div class="relative w-10 h-10 flex items-center justify-center shrink-0">
+            <svg class="w-10 h-10 -rotate-90" viewBox="0 0 40 40">
+              <circle cx="20" cy="20" r="17" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2.5" />
+              <circle id="timerRing" cx="20" cy="20" r="17" fill="none" stroke="#7CE8FF" stroke-width="2.5"
+                      stroke-linecap="round" stroke-dasharray="106.81" stroke-dashoffset="0"
+                      style="transition: stroke-dashoffset 0.5s linear; filter: drop-shadow(0 0 4px rgba(124,232,255,0.65));" />
+            </svg>
+            <button id="btnTimerToggle" class="absolute inset-0 flex items-center justify-center text-white hover:text-cyan-200 transition-colors" aria-label="Start or Pause Focus Timer">
+              <svg id="iconPlay" class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg id="iconPause" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+            </button>
+          </div>
+
+          <div class="flex flex-col">
+            <div class="flex items-baseline gap-2">
+              <span id="timerDisplay" class="text-[18px] font-medium tracking-tight text-white tabular-nums">50:00</span>
+              <span id="timerPresetLabel" class="text-[10px] uppercase tracking-[0.14em] text-cyan-300/80">Deep Work</span>
+            </div>
+            <div id="loggedTodayText" class="text-[11px] text-slate-400 tabular-nums">0m logged today • 3h goal</div>
+          </div>
+        </div>
+
+        <!-- Right: Reset + Expand Presets -->
+        <div class="flex items-center gap-1.5">
+          <button id="btnTimerReset" class="glass-btn rounded-full p-2 text-slate-300 hover:text-white" title="Reset Timer" aria-label="Reset Timer">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M20 20v-5h-5M5.6 15a8 8 0 0013.4 2M18.4 9A8 8 0 005 7"/>
+            </svg>
+          </button>
+          <button id="btnTimerExpand" class="glass-btn rounded-full px-2.5 py-1.5 text-[11px] text-slate-300 hover:text-white flex items-center gap-1" aria-label="Toggle Timer Presets">
+            <span>Mode</span>
+            <svg id="chevronTimer" class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 15l-7-7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Expandable Presets Drawer -->
+      <div id="timerPresetsDrawer" class="hidden mt-3 pt-3 border-t border-white/10">
+        <div class="grid grid-cols-3 gap-2">
+          <button data-preset="25" data-label="Sprint" class="preset-btn glass-btn rounded-xl py-2 px-2 text-center">
+            <div class="text-[12px] font-medium text-white">25m</div>
+            <div class="text-[10px] text-slate-400">Sprint</div>
+          </button>
+          <button data-preset="50" data-label="Deep Work" class="preset-btn glass-btn-cyan rounded-xl py-2 px-2 text-center">
+            <div class="text-[12px] font-medium text-cyan-200">50m</div>
+            <div class="text-[10px] text-cyan-200/70">Deep Work</div>
+          </button>
+          <button data-preset="180" data-label="Full Block" class="preset-btn glass-btn rounded-xl py-2 px-2 text-center">
+            <div class="text-[12px] font-medium text-white">3h</div>
+            <div class="text-[10px] text-slate-400">Full Block</div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 1: Add / Edit Milestone -->
+  <div id="milestoneModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+    <div class="w-full max-w-[390px] glass-panel rounded-[28px] p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 id="milestoneModalTitle" class="text-[15px] font-medium text-white tracking-tight">Add Milestone</h3>
+        <button data-close-modal="milestoneModal" class="text-slate-400 hover:text-white p-1" aria-label="Close">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+
+      <form id="milestoneForm" class="space-y-4">
+        <input type="hidden" id="msId" />
+        <div>
+          <label class="block text-[11px] uppercase tracking-[0.16em] text-slate-400 mb-1.5">Milestone Action</label>
+          <input id="msTitle" type="text" required maxlength="60" placeholder="e.g., Drill tough investor Q&A" class="glass-input w-full rounded-xl px-3.5 py-2.5 text-[14px]" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] uppercase tracking-[0.16em] text-slate-400 mb-1.5">Target Date</label>
+            <input id="msDate" type="date" required class="glass-input w-full rounded-xl px-3 py-2.5 text-[13px]" />
+          </div>
+          <div>
+            <label class="block text-[11px] uppercase tracking-[0.16em] text-slate-400 mb-1.5">Focus Hours</label>
+            <input id="msHours" type="number" min="0" max="24" step="0.5" value="3" required class="glass-input w-full rounded-xl px-3 py-2.5 text-[13px]" />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-2 gap-2">
+          <button type="button" id="btnDeleteMilestone" class="hidden px-3.5 py-2.5 rounded-xl text-[12px] font-medium text-rose-300 bg-rose-500/10 border border-rose-500/25 hover:bg-rose-500/20 transition-colors">
+            Delete
+          </button>
+          <div class="flex items-center gap-2 ml-auto">
+            <button type="button" data-close-modal="milestoneModal" class="glass-btn px-4 py-2.5 rounded-xl text-[12px] text-slate-300">Cancel</button>
+            <button type="submit" class="glass-btn-cyan px-5 py-2.5 rounded-xl text-[12px] font-medium">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Event Settings -->
+  <div id="settingsModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+    <div class="w-full max-w-[390px] glass-panel rounded-[28px] p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-[15px] font-medium text-white tracking-tight">Event Settings</h3>
+        <button data-close-modal="settingsModal" class="text-slate-400 hover:text-white p-1" aria-label="Close">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+
+      <form id="settingsForm" class="space-y-4">
+        <div>
+          <label class="block text-[11px] uppercase tracking-[0.16em] text-slate-400 mb-1.5">Event Title</label>
+          <input id="setTitle" type="text" required maxlength="40" class="glass-input w-full rounded-xl px-3.5 py-2.5 text-[14px]" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] uppercase tracking-[0.16em] text-slate-400 mb-1.5">Target Date</label>
+            <input id="setTargetDate" type="date" required class="glass-input w-full rounded-xl px-3 py-2.5 text-[13px]" />
+          </div>
+          <div>
+            <label class="block text-[11px] uppercase tracking-[0.16em] text-slate-400 mb-1.5">Daily Cap (hrs)</label>
+            <input id="setDailyHours" type="number" min="0.5" max="16" step="0.5" required class="glass-input w-full rounded-xl px-3 py-2.5 text-[13px]" />
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="text-[11px] uppercase tracking-[0.16em] text-slate-400">Baseline Progress</label>
+            <span id="setBaselineVal" class="text-[12px] text-cyan-200 tabular-nums">30%</span>
+          </div>
+          <input id="setBaseline" type="range" min="0" max="90" step="5" class="w-full accent-cyan-300 cursor-pointer" />
+        </div>
+
+        <div class="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+          <button type="button" id="btnResetDefaults" class="text-[12px] text-slate-400 hover:text-rose-300 transition-colors">
+            Reset defaults
+          </button>
+          <div class="flex items-center gap-2">
+            <button type="button" data-close-modal="settingsModal" class="glass-btn px-4 py-2 rounded-xl text-[12px] text-slate-300">Cancel</button>
+            <button type="submit" class="glass-btn-cyan px-5 py-2 rounded-xl text-[12px] font-medium">Update</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Lock Screen Wallpaper Preview & Download -->
+  <div id="wallpaperModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+    <div class="w-full max-w-[400px] glass-panel rounded-[30px] p-5 flex flex-col items-center">
+      <div class="w-full flex items-center justify-between mb-3">
+        <div>
+          <h3 class="text-[15px] font-medium text-white tracking-tight">Lock Screen Wallpaper</h3>
+          <p class="text-[11px] text-slate-400">1179 × 2556 iPhone PNG • Top cleared for iOS clock</p>
+        </div>
+        <button data-close-modal="wallpaperModal" class="text-slate-400 hover:text-white p-1" aria-label="Close">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+
+      <!-- Realistic Phone Preview Frame -->
+      <div class="relative w-[220px] aspect-[1179/2556] rounded-[34px] p-[6px] bg-gradient-to-b from-slate-500/40 via-slate-700/30 to-slate-800/50 shadow-[0_24px_60px_rgba(0,0,0,0.65)] border border-white/15 my-2">
+        <div class="relative w-full h-full rounded-[28px] overflow-hidden bg-[#090D16]">
+          <img id="wallpaperPreviewImg" alt="Lock Screen Preview" class="w-full h-full object-cover block" />
+          <!-- Optional Simulated iOS Clock Overlay (Preview Only, NOT baked into PNG) -->
+          <div id="iosOverlaySim" class="absolute inset-x-0 top-0 pt-6 flex flex-col items-center pointer-events-none transition-opacity duration-200">
+            <div class="w-12 h-3.5 rounded-full bg-black/90 mb-3"></div>
+            <div id="simClockDate" class="text-[8px] text-white/75 tracking-wide">Wednesday, Nov 25</div>
+            <div id="simClockTime" class="text-[36px] leading-none font-light text-white/90 tracking-tight tabular-nums mt-0.5">14:24</div>
+          </div>
+          <!-- Simulated bottom bar -->
+          <div id="iosBottomSim" class="absolute inset-x-0 bottom-2 flex justify-center pointer-events-none transition-opacity duration-200">
+            <div class="w-16 h-1 rounded-full bg-white/60"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toggle Simulated Clock -->
+      <label class="flex items-center gap-2 text-[11px] text-slate-300 mt-2 mb-4 cursor-pointer select-none">
+        <input id="toggleIosOverlay" type="checkbox" checked class="accent-cyan-300 rounded cursor-pointer" />
+        <span>Preview with simulated iOS clock (excluded from PNG)</span>
+      </label>
+
+      <!-- Download Button -->
+      <button id="btnDownloadPNG" class="w-full glass-btn-cyan rounded-2xl py-3 px-4 text-[13px] font-medium flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/>
+        </svg>
+        <span>Download Lock Screen PNG</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-[60] pointer-events-none opacity-0 -translate-y-2 transition-all duration-300">
+    <div class="glass-pill px-4 py-2 rounded-full text-[12px] text-cyan-100 font-medium flex items-center gap-2 shadow-xl">
+      <span class="w-1.5 h-1.5 rounded-full bg-cyan-300"></span>
+      <span id="toastMessage">Saved</span>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * T-Minus — Minimalist Glass Countdown & Milestone Planner
+     * Self-contained application with localStorage persistence, Focus Timer,
+     * .ics Calendar Export, and 1179x2556 iPhone Lock Screen PNG Generator.
+     */
+
+    const STORAGE_KEY = 'tminus_investor_summit_v1';
+
+    // Default Pre-Loaded Investor Summit Backward Plan
+    const DEFAULT_STATE = {
+      settings: {
+        title: 'Investor Summit',
+        targetDate: '2026-12-11',
+        dailyHours: 3,
+        baselineProgress: 30,
+        weekendsBlocked: true
+      },
+      milestones: [
+        { id: 'm1', date: '2026-11-25', title: 'Lock narrative and missing metrics', hours: 3, completed: false },
+        { id: 'm2', date: '2026-11-27', title: 'Draft remaining core content slides', hours: 6, completed: false },
+        { id: 'm3', date: '2026-11-30', title: 'Complete financial model and charts', hours: 3, completed: false },
+        { id: 'm4', date: '2026-12-02', title: 'Finalize full deck and design', hours: 6, completed: false },
+        { id: 'm5', date: '2026-12-04', title: 'Run timed full-deck rehearsals', hours: 6, completed: false },
+        { id: 'm6', date: '2026-12-07', title: 'Refine slides from rehearsal feedback', hours: 3, completed: false },
+        { id: 'm7', date: '2026-12-08', title: 'Drill tough investor Q&A objections', hours: 3, completed: false },
+        { id: 'm8', date: '2026-12-09', title: 'Finalize appendix and one-pager', hours: 3, completed: false },
+        { id: 'm9', date: '2026-12-10', title: 'Final run-through and tech check', hours: 3, completed: false },
+        { id: 'm10', date: '2026-12-11', title: 'Deliver Investor Summit presentation', hours: 0, completed: false }
+      ],
+      focusLogs: {} // { 'YYYY-MM-DD': minutesLogged }
+    };
+
+    let state = loadState();
+    let showDetailedCountdown = false;
+    let resetConfirmArmed = false;
+
+    // Focus Timer Runtime State
+    let timerState = {
+      presetMinutes: 50,
+      label: 'Deep Work',
+      remainingSeconds: 50 * 60,
+      running: false,
+      intervalId: null,
+      accumulatedSeconds: 0
+    };
+
+    // Cached Wallpaper Data URL
+    let currentWallpaperDataUrl = '';
+
+    // =========================================================================
+    // PERSISTENCE & DATE HELPERS
+    // =========================================================================
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return structuredClone(DEFAULT_STATE);
+        const parsed = JSON.parse(raw);
+        if (!parsed.settings || !Array.isArray(parsed.milestones)) {
+          return structuredClone(DEFAULT_STATE);
+        }
+        return {
+          settings: { ...DEFAULT_STATE.settings, ...parsed.settings },
+          milestones: parsed.milestones,
+          focusLogs: parsed.focusLogs || {}
+        };
+      } catch (err) {
+        console.warn('Failed to load saved state, using defaults.', err);
+        return structuredClone(DEFAULT_STATE);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (err) {
+        console.warn('Could not persist to localStorage:', err);
+      }
+    }
+
+    function parseLocalDate(isoDate) {
+      const [y, m, d] = isoDate.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    }
+
+    function getTodayISO() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      const d = String(now.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function diffCalendarDays(fromDateObj, toDateObj) {
+      const utc1 = Date.UTC(fromDateObj.getFullYear(), fromDateObj.getMonth(), fromDateObj.getDate());
+      const utc2 = Date.UTC(toDateObj.getFullYear(), toDateObj.getMonth(), toDateObj.getDate());
+      return Math.round((utc2 - utc1) / 86400000);
+    }
+
+    function formatShortDate(isoDate) {
+      const d = parseLocalDate(isoDate);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    function formatFullTargetDate(isoDate) {
+      const d = parseLocalDate(isoDate);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+    }
+
+    function computeTMinusLabel(milestoneIso) {
+      const msDate = parseLocalDate(milestoneIso);
+      const targetDate = parseLocalDate(state.settings.targetDate);
+      const diff = diffCalendarDays(msDate, targetDate);
+      if (diff > 0) return `T-${diff}`;
+      if (diff === 0) return `T-0`;
+      return `T+${Math.abs(diff)}`;
+    }
+
+    // =========================================================================
+    // COMPUTED METRICS
+    // =========================================================================
+
+    function computeMetrics() {
+      const baseline = Number(state.settings.baselineProgress) || 0;
+      const sorted = [...state.milestones].sort((a, b) => a.date.localeCompare(b.date));
+
+      let totalWeight = 0;
+      let completedWeight = 0;
+      let totalHours = 0;
+      let remainingHours = 0;
+      let completedCount = 0;
+
+      sorted.forEach(m => {
+        const hrs = Number(m.hours) || 0;
+        // Give 0-hour milestones (like T-0 delivery) a subtle weight of 1.5 so completing all reaches 100%
+        const weight = hrs > 0 ? hrs : 1.5;
+        totalWeight += weight;
+        totalHours += hrs;
+        if (m.completed) {
+          completedWeight += weight;
+          completedCount++;
+        } else {
+          remainingHours += hrs;
+        }
+      });
+
+      const progressRatio = totalWeight > 0 ? completedWeight / totalWeight : 1;
+      const readinessPct = Math.min(100, Math.round(baseline + (100 - baseline) * progressRatio));
+
+      return {
+        sorted,
+        readinessPct,
+        totalHours,
+        remainingHours,
+        completedCount,
+        totalCount: sorted.length
+      };
+    }
+
+    // =========================================================================
+    // RENDERING UI
+    // =========================================================================
+
+    function renderClockAndCountdown() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('liveClock').textContent = `${hours}:${mins}`;
+
+      const dateStr = now.toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'short',
+        day: 'numeric'
+      });
+      document.getElementById('liveDate').textContent = dateStr;
+
+      // Update simulated iOS preview clock too
+      const simTime = document.getElementById('simClockTime');
+      const simDate = document.getElementById('simClockDate');
+      if (simTime) simTime.textContent = `${hours}:${mins}`;
+      if (simDate) simDate.textContent = dateStr;
+
+      // Countdown calculation to Target Date (09:00 AM local time on target date)
+      const targetDay = parseLocalDate(state.settings.targetDate);
+      const daysDiff = diffCalendarDays(now, targetDay);
+
+      const primaryEl = document.getElementById('countdownPrimary');
+      const subEl = document.getElementById('countdownSub');
+
+      if (daysDiff > 1) {
+        primaryEl.textContent = `${daysDiff} DAYS TO GO`;
+      } else if (daysDiff === 1) {
+        primaryEl.textContent = `1 DAY TO GO`;
+      } else if (daysDiff === 0) {
+        primaryEl.textContent = `SHOWTIME TODAY`;
+      } else {
+        primaryEl.textContent = `T+${Math.abs(daysDiff)} DAYS`;
+      }
+
+      // Detailed HH:MM:SS sub-counter
+      const targetTimestamp = new Date(targetDay.getFullYear(), targetDay.getMonth(), targetDay.getDate(), 9, 0, 0).getTime();
+      const diffMs = Math.max(0, targetTimestamp - now.getTime());
+      const remHours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+      const remMins = Math.floor((diffMs / (1000 * 60)) % 60);
+      const remSecs = Math.floor((diffMs / 1000) % 60);
+      subEl.textContent = `${String(remHours).padStart(2, '0')}h : ${String(remMins).padStart(2, '0')}m : ${String(remSecs).padStart(2, '0')}s`;
+      subEl.classList.toggle('hidden', !showDetailedCountdown || daysDiff < 0);
+    }
+
+    function renderAll() {
+      const metrics = computeMetrics();
+
+      // Header Info
+      document.getElementById('heroEventTitle').textContent = state.settings.title.toUpperCase();
+      document.getElementById('heroTargetDate').textContent = formatFullTargetDate(state.settings.targetDate);
+
+      // Progress Bar
+      document.getElementById('progressBarFill').style.width = `${metrics.readinessPct}%`;
+      document.getElementById('readinessText').textContent = `${metrics.readinessPct}% Ready`;
+      const hrsText = Number.isInteger(metrics.remainingHours) ? metrics.remainingHours : metrics.remainingHours.toFixed(1);
+      document.getElementById('hoursRemainingText').textContent = `${hrsText}h remaining • ${state.settings.dailyHours}h/day`;
+
+      // Count Badge
+      document.getElementById('milestoneCountBadge').textContent = `${metrics.completedCount}/${metrics.totalCount}`;
+
+      // Timeline Rendering
+      const container = document.getElementById('timelineContainer');
+      container.innerHTML = '';
+
+      if (metrics.sorted.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-[13px] text-slate-400">
+            No milestones yet. Tap <span class="text-cyan-200">+ Add</span> to build your backward plan.
+          </div>
+        `;
+      } else {
+        const firstIncompleteIdx = metrics.sorted.findIndex(m => !m.completed);
+
+        metrics.sorted.forEach((m, idx) => {
+          const isNext = idx === firstIncompleteIdx;
+          const isLast = idx === metrics.sorted.length - 1;
+          const tLabel = computeTMinusLabel(m.date);
+          const dateLabel = formatShortDate(m.date);
+
+          const row = document.createElement('div');
+          row.className = `group relative flex items-center gap-3 py-2.5 px-2 -mx-2 rounded-2xl transition-colors cursor-pointer ${
+            isNext ? 'bg-cyan-400/[0.06] border border-cyan-300/15' : 'hover:bg-white/[0.04] border border-transparent'
+          }`;
+
+          // Clicking row toggles completion (unless clicking edit button)
+          row.addEventListener('click', (e) => {
+            if (e.target.closest('.edit-ms-btn')) return;
+            toggleMilestone(m.id);
+          });
+
+          // Left Column: T-Minus + Short Date
+          const leftCol = document.createElement('div');
+          leftCol.className = 'w-[86px] sm:w-[94px] shrink-0 text-right pr-1 tabular-nums';
+          leftCol.innerHTML = `
+            <div class="text-[12px] font-medium ${
+              isNext ? 'text-[#7CE8FF]' : m.completed ? 'text-slate-500 line-through' : 'text-slate-300'
+            }">${tLabel}</div>
+            <div class="text-[10px] ${
+              isNext ? 'text-cyan-200/75' : 'text-slate-500'
+            }">${dateLabel}</div>
+          `;
+
+          // Center Column: Dotted Line + Node
+          const centerCol = document.createElement('div');
+          centerCol.className = 'relative flex flex-col items-center justify-center w-5 shrink-0 self-stretch';
+
+          // Upper dotted connector
+          if (idx > 0) {
+            const topLine = document.createElement('div');
+            topLine.className = 'absolute top-[-11px] bottom-1/2 w-px border-l border-dashed border-white/15';
+            centerCol.appendChild(topLine);
+          }
+          // Lower dotted connector
+          if (!isLast) {
+            const botLine = document.createElement('div');
+            botLine.className = 'absolute top-1/2 bottom-[-11px] w-px border-l border-dashed border-white/15';
+            centerCol.appendChild(botLine);
+          }
+
+          // Node Circle
+          const node = document.createElement('div');
+          if (m.completed) {
+            node.className = 'relative z-10 w-4 h-4 rounded-full bg-cyan-400/20 border border-cyan-300/60 flex items-center justify-center text-cyan-200 transition-transform';
+            node.innerHTML = `<svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`;
+          } else if (isNext) {
+            node.className = 'relative z-10 w-2.5 h-2.5 rounded-full node-active';
+          } else {
+            node.className = 'relative z-10 w-2 h-2 rounded-full bg-slate-600/90 border border-white/20';
+          }
+          centerCol.appendChild(node);
+
+          // Right Column: Title + Hours + Edit trigger
+          const rightCol = document.createElement('div');
+          rightCol.className = 'flex-1 min-w-0 flex items-center justify-between gap-2';
+          rightCol.innerHTML = `
+            <div class="min-w-0">
+              <div class="text-[13px] leading-snug truncate ${
+                isNext ? 'text-white font-medium' : m.completed ? 'text-slate-500 line-through' : 'text-slate-200/85'
+              }">${escapeHtml(m.title)}</div>
+              ${m.hours > 0 ? `<div class="text-[10px] ${isNext ? 'text-cyan-200/70' : 'text-slate-500'} mt-0.5 tabular-nums">${m.hours}h focus block</div>` : `<div class="text-[10px] text-cyan-300/70 mt-0.5">Target Day</div>`}
+            </div>
+            <button class="edit-ms-btn shrink-0 opacity-60 sm:opacity-0 group-hover:opacity-100 focus:opacity-100 p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white transition-all" title="Edit milestone" aria-label="Edit milestone">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 11l6.232-6.232a2.5 2.5 0 013.536 3.536L12.536 14.536a2 2 0 01-.894.494L8 16l.97-3.642a2 2 0 01.494-.894z"/>
+              </svg>
+            </button>
+          `;
+
+          rightCol.querySelector('.edit-ms-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            openEditMilestoneModal(m);
+          });
+
+          row.appendChild(leftCol);
+          row.appendChild(centerCol);
+          row.appendChild(rightCol);
+          container.appendChild(row);
+        });
+      }
+
+      renderClockAndCountdown();
+      renderFocusLogText();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // =========================================================================
+    // MILESTONE CRUD
+    // =========================================================================
+
+    function toggleMilestone(id) {
+      const target = state.milestones.find(m => m.id === id);
+      if (!target) return;
+      target.completed = !target.completed;
+      saveState();
+      renderAll();
+      if (target.completed) {
+        showToast(`Completed: ${target.title}`);
+      }
+    }
+
+    function openAddMilestoneModal() {
+      document.getElementById('milestoneModalTitle').textContent = 'Add Milestone';
+      document.getElementById('msId').value = '';
+      document.getElementById('msTitle').value = '';
+      document.getElementById('msDate').value = state.settings.targetDate;
+      document.getElementById('msHours').value = state.settings.dailyHours;
+      document.getElementById('btnDeleteMilestone').classList.add('hidden');
+      openModal('milestoneModal');
+      setTimeout(() => document.getElementById('msTitle').focus(), 100);
+    }
+
+    function openEditMilestoneModal(m) {
+      document.getElementById('milestoneModalTitle').textContent = 'Edit Milestone';
+      document.getElementById('msId').value = m.id;
+      document.getElementById('msTitle').value = m.title;
+      document.getElementById('msDate').value = m.date;
+      document.getElementById('msHours').value = m.hours;
+      document.getElementById('btnDeleteMilestone').classList.remove('hidden');
+      openModal('milestoneModal');
+    }
+
+    document.getElementById('milestoneForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('msId').value;
+      const title = document.getElementById('msTitle').value.trim();
+      const date = document.getElementById('msDate').value;
+      const hours = parseFloat(document.getElementById('msHours').value) || 0;
+
+      if (!title || !date) return;
+
+      if (id) {
+        const existing = state.milestones.find(m => m.id === id);
+        if (existing) {
+          existing.title = title;
+          existing.date = date;
+          existing.hours = hours;
+        }
+        showToast('Milestone updated');
+      } else {
+        state.milestones.push({
+          id: 'm_' + Date.now(),
+          date,
+          title,
+          hours,
+          completed: false
+        });
+        showToast('Milestone added');
+      }
+
+      saveState();
+      renderAll();
+      closeModal('milestoneModal');
+    });
+
+    document.getElementById('btnDeleteMilestone').addEventListener('click', () => {
+      const id = document.getElementById('msId').value;
+      if (!id) return;
+      state.milestones = state.milestones.filter(m => m.id !== id);
+      saveState();
+      renderAll();
+      closeModal('milestoneModal');
+      showToast('Milestone removed');
+    });
+
+    // =========================================================================
+    // SETTINGS MODAL
+    // =========================================================================
+
+    function openSettingsModal() {
+      document.getElementById('setTitle').value = state.settings.title;
+      document.getElementById('setTargetDate').value = state.settings.targetDate;
+      document.getElementById('setDailyHours').value = state.settings.dailyHours;
+      document.getElementById('setBaseline').value = state.settings.baselineProgress;
+      document.getElementById('setBaselineVal').textContent = `${state.settings.baselineProgress}%`;
+      resetConfirmArmed = false;
+      document.getElementById('btnResetDefaults').textContent = 'Reset defaults';
+      openModal('settingsModal');
+    }
+
+    document.getElementById('setBaseline').addEventListener('input', (e) => {
+      document.getElementById('setBaselineVal').textContent = `${e.target.value}%`;
+    });
+
+    document.getElementById('settingsForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      state.settings.title = document.getElementById('setTitle').value.trim() || 'Investor Summit';
+      state.settings.targetDate = document.getElementById('setTargetDate').value || '2026-12-11';
+      state.settings.dailyHours = parseFloat(document.getElementById('setDailyHours').value) || 3;
+      state.settings.baselineProgress = parseInt(document.getElementById('setBaseline').value, 10) || 0;
+      saveState();
+      renderAll();
+      closeModal('settingsModal');
+      showToast('Settings saved');
+    });
+
+    document.getElementById('btnResetDefaults').addEventListener('click', () => {
+      const btn = document.getElementById('btnResetDefaults');
+      if (!resetConfirmArmed) {
+        resetConfirmArmed = true;
+        btn.textContent = 'Tap again to confirm reset';
+        return;
+      }
+      state = structuredClone(DEFAULT_STATE);
+      saveState();
+      renderAll();
+      closeModal('settingsModal');
+      showToast('Restored Investor Summit plan');
+    });
+
+    // =========================================================================
+    // BUILT-IN DAILY FOCUS TIMER (25m / 50m / 3h)
+    // =========================================================================
+
+    function formatTimer(totalSec) {
+      const hrs = Math.floor(totalSec / 3600);
+      const mins = Math.floor((totalSec % 3600) / 60);
+      const secs = totalSec % 60;
+      if (hrs > 0) {
+        return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      }
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function renderFocusLogText() {
+      const today = getTodayISO();
+      const loggedMins = state.focusLogs[today] || 0;
+      const hrs = Math.floor(loggedMins / 60);
+      const mins = loggedMins % 60;
+      const loggedStr = hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
+      document.getElementById('loggedTodayText').textContent = `${loggedStr} logged today • ${state.settings.dailyHours}h goal`;
+    }
+
+    function updateTimerUI() {
+      document.getElementById('timerDisplay').textContent = formatTimer(timerState.remainingSeconds);
+      document.getElementById('timerPresetLabel').textContent = timerState.label;
+
+      const totalSec = timerState.presetMinutes * 60;
+      const progress = totalSec > 0 ? (timerState.remainingSeconds / totalSec) : 0;
+      const circumference = 2 * Math.PI * 17; // 106.81
+      const offset = circumference * (1 - progress);
+      document.getElementById('timerRing').style.strokeDashoffset = offset;
+
+      document.getElementById('iconPlay').classList.toggle('hidden', timerState.running);
+      document.getElementById('iconPause').classList.toggle('hidden', !timerState.running);
+      renderFocusLogText();
+    }
+
+    function playGentleChime() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(528, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.6);
+        gain.gain.setValueAtTime(0.001, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 1.25);
+      } catch (_) {
+        // Ignore if browser blocks audio before interaction
+      }
+    }
+
+    function toggleTimer() {
+      if (timerState.running) {
+        clearInterval(timerState.intervalId);
+        timerState.running = false;
+        timerState.intervalId = null;
+      } else {
+        if (timerState.remainingSeconds <= 0) {
+          timerState.remainingSeconds = timerState.presetMinutes * 60;
+        }
+        timerState.running = true;
+        timerState.intervalId = setInterval(() => {
+          timerState.remainingSeconds--;
+          timerState.accumulatedSeconds++;
+
+          // Every 60 seconds of active focus, log 1 minute to today's record
+          if (timerState.accumulatedSeconds >= 60) {
+            timerState.accumulatedSeconds -= 60;
+            const today = getTodayISO();
+            state.focusLogs[today] = (state.focusLogs[today] || 0) + 1;
+            saveState();
+          }
+
+          if (timerState.remainingSeconds <= 0) {
+            clearInterval(timerState.intervalId);
+            timerState.running = false;
+            timerState.intervalId = null;
+            playGentleChime();
+            showToast(`Focus session complete (${timerState.label})`);
+          }
+          updateTimerUI();
+        }, 1000);
+      }
+      updateTimerUI();
+    }
+
+    function resetTimer() {
+      if (timerState.running) {
+        clearInterval(timerState.intervalId);
+        timerState.running = false;
+        timerState.intervalId = null;
+      }
+      timerState.remainingSeconds = timerState.presetMinutes * 60;
+      timerState.accumulatedSeconds = 0;
+      updateTimerUI();
+    }
+
+    function selectTimerPreset(minutes, label) {
+      timerState.presetMinutes = minutes;
+      timerState.label = label;
+      resetTimer();
+
+      document.querySelectorAll('.preset-btn').forEach(btn => {
+        const isSelected = Number(btn.dataset.preset) === minutes;
+        btn.classList.toggle('glass-btn-cyan', isSelected);
+        btn.classList.toggle('glass-btn', !isSelected);
+        btn.querySelector('div:first-child').className = isSelected ? 'text-[12px] font-medium text-cyan-200' : 'text-[12px] font-medium text-white';
+      });
+    }
+
+    document.getElementById('btnTimerToggle').addEventListener('click', toggleTimer);
+    document.getElementById('btnTimerReset').addEventListener('click', resetTimer);
+    document.getElementById('btnTimerExpand').addEventListener('click', () => {
+      const drawer = document.getElementById('timerPresetsDrawer');
+      const chevron = document.getElementById('chevronTimer');
+      const isHidden = drawer.classList.contains('hidden');
+      drawer.classList.toggle('hidden', !isHidden);
+      chevron.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+    });
+
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectTimerPreset(Number(btn.dataset.preset), btn.dataset.label);
+        document.getElementById('timerPresetsDrawer').classList.add('hidden');
+        document.getElementById('chevronTimer').style.transform = 'rotate(0deg)';
+      });
+    });
+
+    // =========================================================================
+    // REAL LOCK SCREEN WALLPAPER PNG GENERATOR (1179 × 2556 iPhone Portrait)
+    // =========================================================================
+
+    function drawRoundedRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+
+    function generateLockScreenDataURL() {
+      const W = 1179;
+      const H = 2556;
+      const canvas = document.createElement('canvas');
+      canvas.width = W;
+      canvas.height = H;
+      const ctx = canvas.getContext('2d');
+
+      // 1. Deep Midnight-Slate Base Gradient
+      const baseGrad = ctx.createLinearGradient(0, 0, W * 0.4, H);
+      baseGrad.addColorStop(0, '#0D1728');
+      baseGrad.addColorStop(0.45, '#090D16');
+      baseGrad.addColorStop(1, '#060911');
+      ctx.fillStyle = baseGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      // 2. Soft Atmospheric Glass Orbs
+      const drawOrb = (cx, cy, radius, colorInner) => {
+        const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+        g.addColorStop(0, colorInner);
+        g.addColorStop(1, 'rgba(9, 13, 22, 0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, W, H);
+      };
+      drawOrb(W * 0.18, H * 0.22, 760, 'rgba(56, 189, 248, 0.20)');
+      drawOrb(W * 0.88, H * 0.36, 680, 'rgba(99, 102, 241, 0.15)');
+      drawOrb(W * 0.72, H * 0.78, 780, 'rgba(124, 232, 255, 0.14)');
+
+      // Subtle Diagonal Translucent Glass Planes (Classic Apple Wallpaper feel)
+      ctx.save();
+      ctx.translate(W * 0.5, H * 0.32);
+      ctx.rotate(-0.42);
+      const planeGrad = ctx.createLinearGradient(-600, -400, 600, 400);
+      planeGrad.addColorStop(0, 'rgba(255, 255, 255, 0.045)');
+      planeGrad.addColorStop(0.5, 'rgba(124, 232, 255, 0.025)');
+      planeGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      ctx.fillStyle = planeGrad;
+      drawRoundedRect(ctx, -650, -320, 1300, 640, 140);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.restore();
+
+      // NOTE: Top 0 -> ~880px is intentionally left clean and uncluttered
+      // so the real iPhone iOS Lock Screen clock sits naturally above the glass pill!
+
+      const metrics = computeMetrics();
+      const now = new Date();
+      const targetDay = parseLocalDate(state.settings.targetDate);
+      const daysDiff = diffCalendarDays(now, targetDay);
+      const pillLabel = daysDiff > 1
+        ? `${daysDiff} DAYS TO GO`
+        : daysDiff === 1
+          ? `1 DAY TO GO`
+          : daysDiff === 0
+            ? `SHOWTIME TODAY`
+            : `T+${Math.abs(daysDiff)} DAYS`;
+
+      // 3. Center Countdown Glass Pill (y = 930)
+      const pillW = 680;
+      const pillH = 136;
+      const pillX = (W - pillW) / 2;
+      const pillY = 930;
+
+      ctx.save();
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+      ctx.shadowBlur = 40;
+      ctx.shadowOffsetY = 14;
+      const pillBg = ctx.createLinearGradient(pillX, pillY, pillX, pillY + pillH);
+      pillBg.addColorStop(0, 'rgba(255, 255, 255, 0.14)');
+      pillBg.addColorStop(1, 'rgba(255, 255, 255, 0.06)');
+      ctx.fillStyle = pillBg;
+      drawRoundedRect(ctx, pillX, pillY, pillW, pillH, pillH / 2);
+      ctx.fill();
+      ctx.restore();
+
+      // Pill 1.5px Glass Border
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.24)';
+      ctx.lineWidth = 2;
+      drawRoundedRect(ctx, pillX, pillY, pillW, pillH, pillH / 2);
+      ctx.stroke();
+
+      // Pill Text
+      ctx.fillStyle = '#9BEFFF';
+      ctx.font = '500 54px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(pillLabel, W / 2, pillY + pillH / 2 + 2);
+
+      // 4. Event Title & Target Date Subtitle
+      ctx.fillStyle = 'rgba(226, 232, 240, 0.85)';
+      ctx.font = '500 32px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+      const subtitle = `${state.settings.title.toUpperCase()}  •  ${formatShortDate(state.settings.targetDate).toUpperCase()}`;
+      ctx.fillText(subtitle, W / 2, pillY + pillH + 74);
+
+      // 5. Glowing Readiness Progress Bar
+      const barW = 820;
+      const barH = 18;
+      const barX = (W - barW) / 2;
+      const barY = pillY + pillH + 128;
+
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.10)';
+      drawRoundedRect(ctx, barX, barY, barW, barH, barH / 2);
+      ctx.fill();
+
+      const fillW = Math.max(barH, (barW * metrics.readinessPct) / 100);
+      ctx.save();
+      ctx.shadowColor = 'rgba(124, 232, 255, 0.75)';
+      ctx.shadowBlur = 24;
+      const fillGrad = ctx.createLinearGradient(barX, barY, barX + fillW, barY);
+      fillGrad.addColorStop(0, '#38BDF8');
+      fillGrad.addColorStop(0.7, '#7CE8FF');
+      fillGrad.addColorStop(1, '#E0F2FE');
+      ctx.fillStyle = fillGrad;
+      drawRoundedRect(ctx, barX, barY, fillW, barH, barH / 2);
+      ctx.fill();
+      ctx.restore();
+
+      // Readiness Meta Line
+      ctx.fillStyle = 'rgba(148, 163, 184, 0.85)';
+      ctx.font = '400 26px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+      const hrsLeft = Number.isInteger(metrics.remainingHours) ? metrics.remainingHours : metrics.remainingHours.toFixed(1);
+      ctx.fillText(`${metrics.readinessPct}% READY   •   ${hrsLeft}H REMAINING`, W / 2, barY + 58);
+
+      // 6. Upcoming Milestones Timeline (Up to 6 uncompleted milestones)
+      const upcoming = metrics.sorted.filter(m => !m.completed).slice(0, 6);
+      const listStartY = 1440;
+
+      // Section Header
+      ctx.fillStyle = 'rgba(148, 163, 184, 0.65)';
+      ctx.font = '500 28px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('M I L E S T O N E S', W / 2, listStartY - 82);
+
+      const nodeX = 495;
+      const rowStep = 122;
+
+      if (upcoming.length === 0) {
+        ctx.fillStyle = '#7CE8FF';
+        ctx.font = '500 40px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+        ctx.fillText('All milestones complete. Ready for stage.', W / 2, listStartY + 80);
+      } else {
+        // Vertical Dashed Connector
+        if (upcoming.length > 1) {
+          ctx.save();
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
+          ctx.lineWidth = 3;
+          ctx.setLineDash([8, 12]);
+          ctx.beginPath();
+          ctx.moveTo(nodeX, listStartY);
+          ctx.lineTo(nodeX, listStartY + (upcoming.length - 1) * rowStep);
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        upcoming.forEach((m, i) => {
+          const y = listStartY + i * rowStep;
+          const isNext = i === 0;
+          const tMinus = computeTMinusLabel(m.date);
+          const shortDate = `(${formatShortDate(m.date)})`;
+
+          // Left side: T-X (Date)
+          ctx.textAlign = 'right';
+          ctx.textBaseline = 'middle';
+          ctx.font = `${isNext ? '600' : '400'} 34px -apple-system, BlinkMacSystemFont, "Inter", sans-serif`;
+          ctx.fillStyle = isNext ? '#7CE8FF' : 'rgba(203, 213, 225, 0.72)';
+          const dateWidth = ctx.measureText(shortDate).width;
+          ctx.fillStyle = isNext ? 'rgba(124, 232, 255, 0.82)' : 'rgba(148, 163, 184, 0.55)';
+          ctx.fillText(shortDate, nodeX - 42, y);
+
+          ctx.fillStyle = isNext ? '#7CE8FF' : 'rgba(226, 232, 240, 0.78)';
+          ctx.fillText(tMinus, nodeX - 56 - dateWidth, y);
+
+          // Center Node
+          if (isNext) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(nodeX, y, 22, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(124, 232, 255, 0.22)';
+            ctx.fill();
+
+            ctx.shadowColor = '#7CE8FF';
+            ctx.shadowBlur = 26;
+            ctx.beginPath();
+            ctx.arc(nodeX, y, 10, 0, Math.PI * 2);
+            ctx.fillStyle = '#9BEFFF';
+            ctx.fill();
+            ctx.restore();
+          } else {
+            ctx.beginPath();
+            ctx.arc(nodeX, y, 8, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.55)';
+            ctx.fill();
+          }
+
+          // Right side: Milestone Action Text (truncated cleanly if long)
+          ctx.textAlign = 'left';
+          ctx.font = `${isNext ? '500' : '400'} 34px -apple-system, BlinkMacSystemFont, "Inter", sans-serif`;
+          ctx.fillStyle = isNext ? '#FFFFFF' : 'rgba(203, 213, 225, 0.68)';
+
+          const maxTextW = W - (nodeX + 46) - 64;
+          let label = m.title;
+          while (ctx.measureText(label).width > maxTextW && label.length > 4) {
+            label = label.slice(0, -2) + '…';
+          }
+          ctx.fillText(label, nodeX + 44, y);
+        });
+      }
+
+      // 7. Subtle Bottom Pace Footer (above iOS Flashlight / Camera buttons)
+      ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(148, 163, 184, 0.55)';
+      ctx.font = '400 26px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+      ctx.fillText(`${state.settings.dailyHours}h daily prep  •  T-Minus`, W / 2, H - 250);
+
+      return canvas.toDataURL('image/png');
+    }
+
+    function openWallpaperModal() {
+      currentWallpaperDataUrl = generateLockScreenDataURL();
+      document.getElementById('wallpaperPreviewImg').src = currentWallpaperDataUrl;
+      openModal('wallpaperModal');
+    }
+
+    document.getElementById('toggleIosOverlay').addEventListener('change', (e) => {
+      const show = e.target.checked;
+      document.getElementById('iosOverlaySim').style.opacity = show ? '1' : '0';
+      document.getElementById('iosBottomSim').style.opacity = show ? '1' : '0';
+    });
+
+    document.getElementById('btnDownloadPNG').addEventListener('click', () => {
+      if (!currentWallpaperDataUrl) {
+        currentWallpaperDataUrl = generateLockScreenDataURL();
+      }
+      const slug = state.settings.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const link = document.createElement('a');
+      link.download = `t-minus-${slug}-lockscreen.png`;
+      link.href = currentWallpaperDataUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('Lock screen PNG downloaded');
+    });
+
+    // =========================================================================
+    // EXPORT TO CALENDAR (.ICS)
+    // =========================================================================
+
+    function exportCalendarICS() {
+      const remaining = state.milestones
+        .filter(m => !m.completed)
+        .sort((a, b) => a.date.localeCompare(b.date));
+
+      if (remaining.length === 0) {
+        showToast('All milestones are already completed');
+        return;
+      }
+
+      const nowStamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+      const lines = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//T-Minus//Countdown & Milestone Planner//EN',
+        'CALSCALE:GREGORIAN',
+        'METHOD:PUBLISH'
+      ];
+
+      remaining.forEach((m) => {
+        const dateClean = m.date.replace(/-/g, '');
+        const tLabel = computeTMinusLabel(m.date);
+        const durationHours = Math.max(1, Math.min(8, Math.round(Number(m.hours) || 1)));
+        const startHour = 9; // 09:00 local
+        const endHour = startHour + durationHours;
+        const dtStart = `${dateClean}T${String(startHour).padStart(2, '0')}0000`;
+        const dtEnd = `${dateClean}T${String(endHour).padStart(2, '0')}0000`;
+        const summary = `[${tLabel}] ${m.title} — ${state.settings.title}`.replace(/[,;]/g, '');
+        const desc = `T-Minus Milestone for ${state.settings.title} (${state.settings.targetDate}). Allocated focus: ${m.hours}h.`;
+
+        lines.push('BEGIN:VEVENT');
+        lines.push(`UID:${m.id}-${dateClean}@tminus.app`);
+        lines.push(`DTSTAMP:${nowStamp}`);
+        lines.push(`DTSTART:${dtStart}`);
+        lines.push(`DTEND:${dtEnd}`);
+        lines.push(`SUMMARY:${summary}`);
+        lines.push(`DESCRIPTION:${desc}`);
+        lines.push('END:VEVENT');
+      });
+
+      lines.push('END:VCALENDAR');
+
+      const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const slug = state.settings.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `t-minus-${slug}-plan.ics`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showToast(`Exported ${remaining.length} milestones (.ics)`);
+    }
+
+    // =========================================================================
+    // MODAL & TOAST UTILITIES
+    // =========================================================================
+
+    function openModal(id) {
+      const el = document.getElementById(id);
+      el.classList.remove('hidden');
+      el.classList.add('flex');
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      el.classList.add('hidden');
+      el.classList.remove('flex');
+    }
+
+    document.querySelectorAll('[data-close-modal]').forEach(btn => {
+      btn.addEventListener('click', () => closeModal(btn.dataset.closeModal));
+    });
+
+    ['milestoneModal', 'settingsModal', 'wallpaperModal'].forEach(id => {
+      document.getElementById(id).addEventListener('click', (e) => {
+        if (e.target.id === id) closeModal(id);
+      });
+    });
+
+    let toastTimeout = null;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMessage').textContent = message;
+      toast.classList.remove('opacity-0', '-translate-y-2');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', '-translate-y-2');
+      }, 2400);
+    }
+
+    // =========================================================================
+    // WIRE UP TOP-LEVEL EVENTS & BOOT
+    // =========================================================================
+
+    document.getElementById('countdownPill').addEventListener('click', () => {
+      showDetailedCountdown = !showDetailedCountdown;
+      renderClockAndCountdown();
+    });
+
+    document.getElementById('btnAddMilestone').addEventListener('click', openAddMilestoneModal);
+    document.getElementById('btnOpenSettings').addEventListener('click', openSettingsModal);
+    document.getElementById('btnOpenWallpaper').addEventListener('click', openWallpaperModal);
+    document.getElementById('btnSaveWallpaperMain').addEventListener('click', openWallpaperModal);
+    document.getElementById('btnExportICS').addEventListener('click', exportCalendarICS);
+    document.getElementById('btnExportICSMain').addEventListener('click', exportCalendarICS);
+
+    // Initialize App
+    renderAll();
+    updateTimerUI();
+    setInterval(renderClockAndCountdown, 1000);
+  </script>
+</body>
+</html>
